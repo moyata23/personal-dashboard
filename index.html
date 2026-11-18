@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Masaki's Personal Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  button, [role="button"], select, summary, a { min-height: 2.25rem; }
+  :root{
+    --bg:#f3f4f1;
+    --surface:#ffffff;
+    --surface-2:#eef0ec;
+    --surface-3:#e6e9e3;
+    --ink:#151816;
+    --ink-2:#4a524d;
+    --ink-3:#7a837d;
+    --line:#dde1da;
+    --accent:#0b6b4f;
+    --accent-soft:#e0efe9;
+    --accent-ink:#084c38;
+    --amber:#b45309;
+    --amber-soft:#fef3c7;
+    --red:#b42318;
+    --red-soft:#fef2f2;
+    --radius-lg:20px;
+    --radius-md:14px;
+    --radius-sm:10px;
+    --shadow:0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.04);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0f1110;
+      --surface:#171a18;
+      --surface-2:#1e2220;
+      --surface-3:#262b28;
+      --ink:#f0f2ef;
+      --ink-2:#b8c0ba;
+      --ink-3:#8a948d;
+      --line:#2a2f2c;
+      --accent:#34d399;
+      --accent-soft:#122a22;
+      --accent-ink:#a7f3d0;
+      --amber:#fbbf24;
+      --amber-soft:#2a2110;
+      --red:#fca5a5;
+      --red-soft:#2d1a1a;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Manrope",system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:20px 18px 40px}
+  /* Top bar */
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px 0 18px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:800;font-size:18px;letter-spacing:-.02em;flex-shrink:0}
+  .brand-text{line-height:1.1}
+  .brand-text strong{font-size:15px;letter-spacing:-.02em;display:block}
+  .brand-text span{font-size:13px;color:var(--ink-2);font-weight:600}
+  .top-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .pill{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700;min-height:36px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0}
+  .pill.mono{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12.5px}
+  /* Hero */
+  .hero{background:var(--ink);color:var(--bg);border-radius:var(--radius-lg);padding:26px 26px 22px;position:relative;overflow:hidden}
+  @media (prefers-color-scheme: dark){ .hero{background:#e8ebe8;color:#111312} }
+  .hero h1{margin:0;font-size:clamp(28px,5vw,42px);line-height:.95;letter-spacing:-.04em;font-weight:800;max-width:620px}
+  .hero h1 em{font-style:normal;color:#7dd3a8}
+  @media (prefers-color-scheme: dark){ .hero h1 em{color:#0b6b4f} }
+  .hero p{margin:12px 0 0;max-width:560px;font-size:15.5px;line-height:1.55;opacity:.82;font-weight:600}
+  .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14);border-radius:12px;overflow:hidden;margin-top:22px}
+  @media (prefers-color-scheme: dark){ .hero-stats{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.08)} }
+  .stat{background:rgba(255,255,255,.06);padding:14px 14px 12px}
+  @media (prefers-color-scheme: dark){ .stat{background:rgba(255,255,255,.55)} }
+  .stat b{font-size:22px;letter-spacing:-.03em;display:block;line-height:1;font-family:"IBM Plex Mono",monospace}
+  .stat span{font-size:12px;font-weight:700;opacity:.75;text-transform:uppercase;letter-spacing:.06em}
+  /* Layout */
+  .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-top:16px;align-items:start}
+  @media (max-width:860px){ .grid{grid-template-columns:1fr} .hero-stats{grid-template-columns:repeat(2,1fr)} }
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
+  .card-head{padding:20px 20px 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .card-head h2{margin:0;font-size:19px;letter-spacing:-.03em;line-height:1.1;font-weight:800}
+  .card-head p{margin:5px 0 0;color:var(--ink-2);font-size:13.5px;font-weight:600;line-height:1.45}
+  .count-badge{font-family:"IBM Plex Mono",monospace;background:var(--surface-2);border:1px solid var(--line);padding:6px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+  /* Filters */
+  .filters{display:flex;gap:8px;padding:0 20px 14px;flex-wrap:wrap}
+  .filter-btn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:8px 13px;border-radius:999px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:36px}
+  .filter-btn.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  /* Todo list */
+  .todo-list{list-style:none;margin:0;padding:2px 12px 12px}
+  .todo{display:flex;gap:13px;padding:14px 8px;border-top:1px solid var(--line);align-items:flex-start}
+  .todo:first-child{border-top:0}
+  .todo-num{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:700;color:var(--ink-2);flex-shrink:0;margin-top:1px;background:var(--surface-2)}
+  .todo-main{flex:1;min-width:0}
+  .todo-title{font-weight:700;font-size:15px;letter-spacing:-.01em;line-height:1.35}
+  .todo-note{font-size:13.5px;color:var(--ink-2);font-weight:600;line-height:1.45;margin-top:2px}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+  .tag{font-size:11.5px;font-weight:800;letter-spacing:.02em;padding:4px 7px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+  .tag.game{background:var(--accent-soft);color:var(--accent-ink);border-color:transparent}
+  .tag.warn{background:var(--amber-soft);color:var(--amber);border-color:transparent}
+  .status-open{font-size:12px;font-weight:800;color:var(--accent);white-space:nowrap;padding-top:4px}
+  .card-foot{padding:13px 20px 16px;border-top:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:var(--surface-2)}
+  .card-foot p{margin:0;font-size:13px;color:var(--ink-2);font-weight:600}
+  .btn{appearance:none;border:0;cursor:pointer;font:inherit;font-weight:800;font-size:13.5px;padding:10px 14px;border-radius:999px;min-height:40px;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+  .btn-primary{background:var(--ink);color:var(--bg)}
+  .btn-ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+  /* Project card */
+  .project-hero{margin:0 20px 16px;background:var(--accent-soft);border-radius:var(--radius-md);padding:16px}
+  .project-hero label{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--accent-ink);display:block;margin-bottom:6px}
+  .project-hero strong{font-size:16px;letter-spacing:-.02em;line-height:1.3;display:block}
+  .project-hero p{margin:6px 0 0;font-size:13.5px;line-height:1.5;color:var(--ink-2);font-weight:600}
+  .kv{padding:0 20px 6px}
+  .kv-row{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+  .kv-row:first-child{border-top:0}
+  .kv-icon{width:36px;height:36px;border-radius:9px;background:var(--surface-2);display:grid;place-items:center;font-size:17px;flex-shrink:0}
+  .kv-row h3{margin:0;font-size:14px;letter-spacing:-.01em}
+  .kv-row p{margin:2px 0 0;font-size:13.5px;color:var(--ink-2);font-weight:600;line-height:1.45}
+  .callout{margin:14px 20px 20px;border:1px dashed var(--line);border-radius:var(--radius-md);padding:14px 14px 12px;background:var(--surface)}
+  .callout h3{margin:0;font-size:13px}
+  .callout p, .callout li{font-size:13.5px;color:var(--ink-2);font-weight:600;line-height:1.5}
+  .callout ul{margin:6px 0 0;padding-left:18px}
+  .callout li{margin:3px 0}
+  code{font-family:"IBM Plex Mono",monospace;font-size:.92em;background:var(--surface-2);padding:1px 5px;border-radius:6px;border:1px solid var(--line)}
+  /* Status grid */
+  .section-title{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:22px 2px 12px}
+  .section-title h2{margin:0;font-size:20px;letter-spacing:-.03em}
+  .section-title p{margin:0;color:var(--ink-2);font-size:13.5px;font-weight:600}
+  .status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media (max-width:860px){ .status-grid{grid-template-columns:1fr 1fr} }
+  @media (max-width:560px){ .status-grid{grid-template-columns:1fr} .wrap{padding:14px 12px 32px} .hero{padding:22px 18px 18px} }
+  .status-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+  .status-card.wide{grid-column:span 1}
+  @media (min-width:861px){ .status-card.featured{grid-column:span 2} }
+  .sc-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .sc-label{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+  .sc-badge{font-size:11.5px;font-weight:800;padding:4px 7px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+  .sc-badge.amber{background:var(--amber-soft);color:var(--amber)}
+  .sc-badge.neutral{background:var(--surface-2);color:var(--ink-2)}
+  .status-card h3{margin:0;font-size:16px;letter-spacing:-.02em;line-height:1.25}
+  .status-card p{margin:0;font-size:13.5px;color:var(--ink-2);font-weight:600;line-height:1.5}
+  .metric-row{display:flex;gap:8px;flex-wrap:wrap}
+  .metric{flex:1;min-width:110px;background:var(--surface-2);border-radius:10px;padding:10px}
+  .metric b{font-family:"IBM Plex Mono",monospace;font-size:16px;display:block;line-height:1}
+  .metric span{font-size:12px;color:var(--ink-2);font-weight:700}
+  .book-row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px;font-weight:700}
+  .book-row:first-of-type{border-top:0}
+  .book-row span{color:var(--ink-2);font-weight:600;font-family:"IBM Plex Mono",monospace;font-size:12.5px;white-space:nowrap}
+  /* Footer / GitHub */
+  .github-bar{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:18px 20px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;box-shadow:var(--shadow)}
+  .github-bar h3{margin:0;font-size:15px;letter-spacing:-.02em}
+  .github-bar p{margin:3px 0 0;font-size:13.5px;color:var(--ink-2);font-weight:600;line-height:1.45;max-width:560px}
+  .github-bar code{white-space:nowrap}
+  footer{padding:18px 4px 0;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--ink-3);font-size:12.5px;font-weight:600}
+  .hidden{display:none !important}
+  .toast{position:fixed;left:50%;transform:translateX(-50%) translateY(20px);bottom:18px;background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:999px;font-size:13.5px;font-weight:700;opacity:0;pointer-events:none;transition:.2s;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto !important;transition:none !important} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="topbar">
+    <div class="brand">
+      <div class="avatar" aria-hidden="true">M</div>
+      <div class="brand-text">
+        <strong>Masaki's Dashboard</strong>
+        <span>Personal home base • Independence, MO</span>
+      </div>
+    </div>
+    <div class="top-meta">
+      <span class="pill"><span class="dot"></span> Private • No ads</span>
+      <span class="pill mono" id="todayLabel">Wed, Nov 18, 2026</span>
+    </div>
+  </header>
+
+  <section class="hero" aria-label="Overview">
+    <h1>Everything in <em>one place.</em><br>Nothing extra.</h1>
+    <p>Your open list, your training app notes, and the things you're tracking — kept simple so you can glance, decide, and get back to it. Built as a single file, ready for GitHub Pages whenever you are.</p>
+    <div class="hero-stats" aria-label="Summary">
+      <div class="stat"><b>6</b><span>Open to-dos</span></div>
+      <div class="stat"><b>42</b><span>Job applications</span></div>
+      <div class="stat"><b>31</b><span>Books sold</span></div>
+      <div class="stat"><b>1</b><span>Active project</span></div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <!-- TO-DO -->
+    <section class="card" id="todo" aria-labelledby="todo-title">
+      <div class="card-head">
+        <div>
+          <h2 id="todo-title">To-do list</h2>
+          <p>All currently open. Kept by Boa — this is the live snapshot for the dashboard.</p>
+        </div>
+        <span class="count-badge">6 open</span>
+      </div>
+
+      <div class="filters" role="group" aria-label="Filter to-dos">
+        <button class="filter-btn active" data-filter="all" type="button">All • 6</button>
+        <button class="filter-btn" data-filter="game" type="button">Games • 2</button>
+        <button class="filter-btn" data-filter="home" type="button">Home &amp; stream • 3</button>
+        <button class="filter-btn" data-filter="project" type="button">Project • 1</button>
+      </div>
+
+      <ol class="todo-list" id="todoList">
+        <li class="todo" data-cat="game">
+          <span class="todo-num">1</span>
+          <div class="todo-main">
+            <div class="todo-title">Beat Pragmata</div>
+            <div class="todo-note">Video game — finish the run.</div>
+            <div class="tags"><span class="tag game">Game</span><span class="tag">Backlog</span></div>
+          </div>
+          <span class="status-open">Open</span>
+        </li>
+        <li class="todo" data-cat="home">
+          <span class="todo-num">2</span>
+          <div class="todo-main">
+            <div class="todo-title">Clean my office</div>
+            <div class="todo-note">Reset the desk and workspace.</div>
+            <div class="tags"><span class="tag">Home</span></div>
+          </div>
+          <span class="status-open">Open</span>
+        </li>
+        <li class="todo" data-cat="game">
+          <span class="todo-num">3</span>
+          <div class="todo-main">
+            <div class="todo-title">Beat The Letter</div>
+            <div class="todo-note">Video game — finish the run.</div>
+            <div class="tags"><span class="tag game">Game</span><span class="tag">Backlog</span></div>
+          </div>
+          <span class="status-open">Open</span>
+        </li>
+        <li class="todo" data-cat="home">
+          <span class="todo-num">4</span>
+          <div class="todo-main">
+            <div class="todo-title">Make a timestamp shortcut for my Stream Deck</div>
+            <div class="todo-note">One tap to drop a timestamp while streaming / recording.</div>
+            <div class="tags"><span class="tag">Stream Deck</span><span class="tag">Tech</span></div>
+          </div>
+          <span class="status-open">Open</span>
+        </li>
+        <li class="todo" data-cat="home">
+          <span class="todo-num">5</span>
+          <div class="todo-main">
+            <div class="todo-title">Review my OBS and make sure my stream is ready to go</div>
+            <div class="todo-note">Check scenes, audio, and settings so you can go live whenever you decide to stream again — no scramble.</div>
+            <div class="tags"><span class="tag">OBS</span><span class="tag">Streaming</span></div>
+          </div>
+          <span class="status-open">Open</span>
+        </li>
+        <li class="todo" data-cat="project">
+          <span class="todo-num">6</span>
+          <div class="todo-main">
+            <div class="todo-title">Project NOMAD: get the AI model downloaded</div>
+            <div class="todo-note">Downloads keep erroring out. Next try: download on desktop, then transfer via USB.</div>
+            <div class="tags"><span class="tag warn">Blocked — retry plan ready</span><span class="tag">Project NOMAD</span></div>
+          </div>
+          <span class="status-open">Open</span>
+        </li>
+      </ol>
+
+      <div class="card-foot">
+        <p id="filterNote">Showing all 6 items.</p>
+        <button class="btn btn-primary" id="copyTodos" type="button">Copy list as Markdown</button>
+      </div>
+    </section>
+
+    <!-- TRAINING APP -->
+    <section class="card" id="training-app" aria-labelledby="app-title">
+      <div class="card-head">
+        <div>
+          <h2 id="app-title">Fighting Game Training App</h2>
+          <p>Project notes • Website first, apps later</p>
+        </div>
+        <span class="count-badge">Free</span>
+      </div>
+
+      <div class="project-hero">
+        <label>Core idea</label>
+        <strong>See the move, not just the notation.</strong>
+        <p>A move <em>animation</em> database — short looping clips of what a move actually looks like, tied to its string. Hear “1, 1, 2” in Tekken, see the animation, and it clicks.</p>
+      </div>
+
+      <div class="kv">
+        <div class="kv-row">
+          <div class="kv-icon" aria-hidden="true">🌐</div>
+          <div><h3>Website first</h3><p>Launch on the web so anyone can jump in fast. iOS / Android apps come later, once the core feels right. Free for users.</p></div>
+        </div>
+        <div class="kv-row">
+          <div class="kv-icon" aria-hidden="true">🎮</div>
+          <div><h3>Multi-game, per-game pages</h3><p>Game selector up top, then a dedicated page per game and character. Built to grow game by game without getting messy.</p></div>
+        </div>
+        <div class="kv-row">
+          <div class="kv-icon" aria-hidden="true">🧠</div>
+          <div><h3>Teaches what games don't explain</h3><p>Neutral, frame traps, whose turn it is — the concepts you normally only pick up from other players, explained plainly.</p></div>
+        </div>
+        <div class="kv-row">
+          <div class="kv-icon" aria-hidden="true">🎞️</div>
+          <div><h3>Animation database + frame data later</h3><p>Clips hosted on the site to start. Later: overlays that use the clip itself — e.g. tint red when a move is negative, with the number on it.</p></div>
+        </div>
+        <div class="kv-row">
+          <div class="kv-icon" aria-hidden="true">👥</div>
+          <div><h3>Community-powered</h3><p>Bug reporting to track issues, plus tech submissions — players submit tech for their game / character and it gets aggregated for everyone.</p></div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <h3>Money — clean first</h3>
+        <p>No ads at launch. If ads ever come to cover costs, they have to be fighting-game relevant only:</p>
+        <ul>
+          <li>Fight sticks, arcade sticks, leverless controllers, and parts</li>
+          <li>Possibly via Google AdSense with tight targeting</li>
+          <li>No random mobile-game ads — if it wouldn't help a player at the setup, it doesn't belong</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <!-- STATUS -->
+  <div class="section-title">
+    <h2>Tracking &amp; quick status</h2>
+    <p>Updated Nov 18, 2026 • Snapshot, not live sync</p>
+  </div>
+
+  <div class="status-grid">
+    <article class="status-card featured">
+      <div class="sc-top"><span class="sc-label">Job search</span><span class="sc-badge">Active</span></div>
+      <h3>42 applications submitted</h3>
+      <p>Seattle area + fully remote. Tailored resumes per role. Full tracker lives in your Muse dashboard — this card is the at-a-glance count.</p>
+      <div class="metric-row">
+        <div class="metric"><b>42</b><span>Submitted</span></div>
+        <div class="metric"><b>SEA + Remote</b><span>Scope</span></div>
+      </div>
+    </article>
+
+    <article class="status-card">
+      <div class="sc-top"><span class="sc-label">eBay • Books</span><span class="sc-badge">Selling</span></div>
+      <h3>Your dad's books</h3>
+      <div>
+        <div class="book-row"><div>Ryutei no Michi</div><span>$45 • 17 sold</span></div>
+        <div class="book-row"><div>Basic Tuite Book</div><span>$15 • 14 sold</span></div>
+      </div>
+      <p>Both listings live. 31 copies sold total.</p>
+    </article>
+
+    <article class="status-card">
+      <div class="sc-top"><span class="sc-label">GTA VI</span><span class="sc-badge amber">Watching</span></div>
+      <h3>Waiting for PC</h3>
+      <p>Boa checks twice a week for any of these: a PC version announcement, a working 30+ fps recomp, or a streaming route that actually works.</p>
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:12px">No PC date yet in this snapshot.</p>
+    </article>
+
+    <article class="status-card">
+      <div class="sc-top"><span class="sc-label">Journal</span><span class="sc-badge neutral">Backup</span></div>
+      <h3>Journal backup</h3>
+      <p>You'll upload journal documents as you go and Boa keeps them backed up. Drop new entries in whenever — they'll be filed, not dumped in one big chat.</p>
+    </article>
+
+    <article class="status-card">
+      <div class="sc-top"><span class="sc-label">Gemini transfers</span><span class="sc-badge neutral">Ready</span></div>
+      <h3>Transfers folder is ready</h3>
+      <p>Kept separate from your main conversations, with its own index. Upload files whenever you're ready and each one gets sorted into its own file.</p>
+    </article>
+
+    <article class="status-card">
+      <div class="sc-top"><span class="sc-label">This dashboard</span><span class="sc-badge">Single file</span></div>
+      <h3>Ready for GitHub Pages</h3>
+      <p>One self-contained <code>index.html</code> — no build step, no domain to buy. Push it to a repo, turn on Pages, and you have a free address.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn btn-ghost" href="#todo" style="flex:1;justify-content:center">View to-dos ↑</a>
+        <a class="btn btn-ghost" href="#training-app" style="flex:1;justify-content:center">App notes ↑</a>
+      </div>
+    </article>
+  </div>
+
+  <div class="github-bar">
+    <div>
+      <h3>To put this on GitHub later</h3>
+      <p>Create a repo, add this file as <code>index.html</code> at the root, then Settings → Pages → Deploy from branch. That's it — no server, no cost.</p>
+    </div>
+    <button class="btn btn-primary" id="copyGithub" type="button">Copy setup steps</button>
+  </div>
+
+  <footer>
+    <span>Masaki's Personal Dashboard — for personal use.</span>
+    <span>Snapshot: Wednesday, November 18, 2026 • America/Chicago</span>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
+
+<script>
+(function(){
+  var todayEl = document.getElementById('todayLabel');
+  try{
+    var d = new Date();
+    var fmt = new Intl.DateTimeFormat('en-US',{weekday:'short', month:'short', day:'numeric', year:'numeric', timeZone:'America/Chicago'});
+    if(todayEl) todayEl.textContent = fmt.format(d);
+  }catch(e){}
+
+  var buttons = Array.prototype.slice.call(document.querySelectorAll('.filter-btn'));
+  var items = Array.prototype.slice.call(document.querySelectorAll('.todo'));
+  var note = document.getElementById('filterNote');
+  var labels = {all:'Showing all 6 items.', game:'Showing 2 game items.', home:'Showing 3 home & stream items.', project:'Showing 1 project item.'};
+  buttons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      buttons.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var f = btn.getAttribute('data-filter');
+      var visible = 0;
+      items.forEach(function(it){
+        var show = (f==='all' || it.getAttribute('data-cat')===f);
+        it.classList.toggle('hidden', !show);
+        if(show) visible++;
+      });
+      if(note) note.textContent = labels[f] || ('Showing ' + visible + ' items.');
+    });
+  });
+
+  var toast = document.getElementById('toast');
+  var toastTimer = null;
+  function showToast(msg){
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 2200);
+  }
+  function copyText(text, msg){
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); showToast(msg); }catch(e){ showToast('Copy failed — select and copy manually'); }
+      document.body.removeChild(ta);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ showToast(msg); }, fallback);
+    } else { fallback(); }
+  }
+
+  var todoMd = [
+    '## To-do — Masaki',
+    '',
+    '- [ ] Beat Pragmata (video game)',
+    '- [ ] Clean my office',
+    '- [ ] Beat The Letter (video game)',
+    '- [ ] Make a timestamp shortcut for my Stream Deck',
+    '- [ ] Review my OBS and make sure my stream is ready to go whenever I decide to stream again',
+    '- [ ] Project NOMAD: get the AI model downloaded (downloads keep erroring out; try desktop download + USB transfer)',
+    ''
+  ].join('\n');
+
+  var copyTodos = document.getElementById('copyTodos');
+  if(copyTodos) copyTodos.addEventListener('click', function(){ copyText(todoMd, 'To-do list copied as Markdown'); });
+
+  var ghSteps = [
+    'GitHub Pages setup:',
+    '1. Create a new GitHub repo',
+    '2. Add this dashboard as index.html at the repo root',
+    '3. Push to GitHub',
+    '4. Repo Settings > Pages > Deploy from a branch (main / root)',
+    '5. Open the Pages URL GitHub gives you — no domain needed'
+  ].join('\n');
+  var copyGithub = document.getElementById('copyGithub');
+  if(copyGithub) copyGithub.addEventListener('click', function(){ copyText(ghSteps, 'GitHub Pages steps copied'); });
+})();
+</script>
+</body>
+</html>
