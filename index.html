@@ -5,50 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="light dark" />
 <link rel="icon" href="data:," />
-<title>Masaki's Personal Dashboard</title>
+<title>Personal Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   button, [role="button"], select, summary, a { min-height: 2.25rem; }
   :root{
-    --bg:#f3f4f1;
-    --surface:#ffffff;
-    --surface-2:#eef0ec;
-    --surface-3:#e6e9e3;
-    --ink:#151816;
-    --ink-2:#4a524d;
-    --ink-3:#7a837d;
-    --line:#dde1da;
-    --accent:#0b6b4f;
-    --accent-soft:#e0efe9;
-    --accent-ink:#084c38;
-    --amber:#b45309;
-    --amber-soft:#fef3c7;
-    --red:#b42318;
-    --red-soft:#fef2f2;
-    --radius-lg:20px;
-    --radius-md:14px;
-    --radius-sm:10px;
+    --bg:#f3f4f1; --surface:#ffffff; --surface-2:#eef0ec; --surface-3:#e6e9e3;
+    --ink:#151816; --ink-2:#4a524d; --ink-3:#7a837d; --line:#dde1da;
+    --accent:#0b6b4f; --accent-soft:#e0efe9; --accent-ink:#084c38;
+    --amber:#b45309; --amber-soft:#fef3c7; --red:#b42318; --red-soft:#fef2f2;
+    --radius-lg:20px; --radius-md:14px; --radius-sm:10px;
     --shadow:0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.04);
   }
   @media (prefers-color-scheme: dark){
     :root{
-      --bg:#0f1110;
-      --surface:#171a18;
-      --surface-2:#1e2220;
-      --surface-3:#262b28;
-      --ink:#f0f2ef;
-      --ink-2:#b8c0ba;
-      --ink-3:#8a948d;
-      --line:#2a2f2c;
-      --accent:#34d399;
-      --accent-soft:#122a22;
-      --accent-ink:#a7f3d0;
-      --amber:#fbbf24;
-      --amber-soft:#2a2110;
-      --red:#fca5a5;
-      --red-soft:#2d1a1a;
+      --bg:#0f1110; --surface:#171a18; --surface-2:#1e2220; --surface-3:#262b28;
+      --ink:#f0f2ef; --ink-2:#b8c0ba; --ink-3:#8a948d; --line:#2a2f2c;
+      --accent:#34d399; --accent-soft:#122a22; --accent-ink:#a7f3d0;
+      --amber:#fbbf24; --amber-soft:#2a2110; --red:#fca5a5; --red-soft:#2d1a1a;
       --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
     }
   }
@@ -57,8 +33,7 @@
   body{margin:0;background:var(--bg);color:var(--ink);font-family:"Manrope",system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
   a{color:inherit}
   .wrap{max-width:1120px;margin:0 auto;padding:20px 18px 40px}
-  /* Top bar */
-  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px 0 18px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px 0 14px}
   .brand{display:flex;align-items:center;gap:12px}
   .avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:800;font-size:18px;letter-spacing:-.02em;flex-shrink:0}
   .brand-text{line-height:1.1}
@@ -68,32 +43,49 @@
   .pill{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700;min-height:36px}
   .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0}
   .pill.mono{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12.5px}
+
+  /* Page navigation */
+  .page-nav{position:sticky;top:0;z-index:15;background:var(--bg);padding:10px 0 12px;border-bottom:1px solid var(--line);margin-bottom:18px}
+  .page-nav-inner{display:flex;gap:8px;flex-wrap:wrap}
+  .page-btn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:9px 14px;border-radius:999px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;min-height:40px;display:inline-flex;align-items:center;gap:7px}
+  .page-btn small{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:11.5px;opacity:.75}
+  .page-btn.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .page-btn:focus-visible,.filter-btn:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .page{display:none}
+  .page.active{display:block}
+  .page-head{margin:2px 2px 16px}
+  .page-head h1,.page-head h2{margin:0;font-size:clamp(24px,4vw,32px);letter-spacing:-.035em;line-height:1.05;font-weight:800}
+  .page-head p{margin:7px 0 0;color:var(--ink-2);font-size:14.5px;font-weight:600;line-height:1.5;max-width:640px}
+  .pager{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:18px}
+  .pager .btn{flex:1;justify-content:center;min-width:150px}
+
   /* Hero */
   .hero{background:var(--ink);color:var(--bg);border-radius:var(--radius-lg);padding:26px 26px 22px;position:relative;overflow:hidden}
   @media (prefers-color-scheme: dark){ .hero{background:#e8ebe8;color:#111312} }
   .hero h1{margin:0;font-size:clamp(28px,5vw,42px);line-height:.95;letter-spacing:-.04em;font-weight:800;max-width:620px}
   .hero h1 em{font-style:normal;color:#7dd3a8}
   @media (prefers-color-scheme: dark){ .hero h1 em{color:#0b6b4f} }
-  .hero p{margin:12px 0 0;max-width:560px;font-size:15.5px;line-height:1.55;opacity:.82;font-weight:600}
+  .hero p{margin:12px 0 0;max-width:580px;font-size:15.5px;line-height:1.55;opacity:.85;font-weight:600}
   .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14);border-radius:12px;overflow:hidden;margin-top:22px}
   @media (prefers-color-scheme: dark){ .hero-stats{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.08)} }
-  .stat{background:rgba(255,255,255,.06);padding:14px 14px 12px}
+  .stat{background:rgba(255,255,255,.06);padding:14px 14px 12px;text-align:left;font:inherit;color:inherit;width:100%}
   @media (prefers-color-scheme: dark){ .stat{background:rgba(255,255,255,.55)} }
+  button.stat{cursor:pointer;border:0}
   .stat b{font-size:22px;letter-spacing:-.03em;display:block;line-height:1;font-family:"IBM Plex Mono",monospace}
-  .stat span{font-size:12px;font-weight:700;opacity:.75;text-transform:uppercase;letter-spacing:.06em}
-  /* Layout */
+  .stat span{font-size:12px;font-weight:700;opacity:.78;text-transform:uppercase;letter-spacing:.06em}
+  .stat small{display:block;margin-top:5px;font-size:12px;font-weight:700;opacity:.7;text-transform:none;letter-spacing:0}
+
   .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-top:16px;align-items:start}
+  .grid-single{display:grid;grid-template-columns:1fr;gap:16px;align-items:start}
   @media (max-width:860px){ .grid{grid-template-columns:1fr} .hero-stats{grid-template-columns:repeat(2,1fr)} }
   .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
   .card-head{padding:20px 20px 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
   .card-head h2{margin:0;font-size:19px;letter-spacing:-.03em;line-height:1.1;font-weight:800}
   .card-head p{margin:5px 0 0;color:var(--ink-2);font-size:13.5px;font-weight:600;line-height:1.45}
   .count-badge{font-family:"IBM Plex Mono",monospace;background:var(--surface-2);border:1px solid var(--line);padding:6px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
-  /* Filters */
   .filters{display:flex;gap:8px;padding:0 20px 14px;flex-wrap:wrap}
   .filter-btn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:8px 13px;border-radius:999px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:36px}
   .filter-btn.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-  /* Todo list */
   .todo-list{list-style:none;margin:0;padding:2px 12px 12px}
   .todo{display:flex;gap:13px;padding:14px 8px;border-top:1px solid var(--line);align-items:flex-start}
   .todo:first-child{border-top:0}
@@ -111,7 +103,6 @@
   .btn{appearance:none;border:0;cursor:pointer;font:inherit;font-weight:800;font-size:13.5px;padding:10px 14px;border-radius:999px;min-height:40px;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
   .btn-primary{background:var(--ink);color:var(--bg)}
   .btn-ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
-  /* Project card */
   .project-hero{margin:0 20px 16px;background:var(--accent-soft);border-radius:var(--radius-md);padding:16px}
   .project-hero label{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--accent-ink);display:block;margin-bottom:6px}
   .project-hero strong{font-size:16px;letter-spacing:-.02em;line-height:1.3;display:block}
@@ -128,38 +119,59 @@
   .callout ul{margin:6px 0 0;padding-left:18px}
   .callout li{margin:3px 0}
   code{font-family:"IBM Plex Mono",monospace;font-size:.92em;background:var(--surface-2);padding:1px 5px;border-radius:6px;border:1px solid var(--line)}
-  /* Status grid */
-  .section-title{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:22px 2px 12px}
+  .section-title{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:22px 2px 12px;flex-wrap:wrap}
   .section-title h2{margin:0;font-size:20px;letter-spacing:-.03em}
   .section-title p{margin:0;color:var(--ink-2);font-size:13.5px;font-weight:600}
   .status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  @media (max-width:860px){ .status-grid{grid-template-columns:1fr 1fr} }
-  @media (max-width:560px){ .status-grid{grid-template-columns:1fr} .wrap{padding:14px 12px 32px} .hero{padding:22px 18px 18px} }
+  .overview-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+  @media (max-width:860px){ .status-grid{grid-template-columns:1fr 1fr} .overview-grid{grid-template-columns:1fr} }
+  @media (max-width:560px){ .status-grid{grid-template-columns:1fr} .wrap{padding:14px 12px 32px} .hero{padding:22px 18px 18px} .page-btn{flex:1 1 calc(50% - 8px);justify-content:center} }
   .status-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
-  .status-card.wide{grid-column:span 1}
   @media (min-width:861px){ .status-card.featured{grid-column:span 2} }
   .sc-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
   .sc-label{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
-  .sc-badge{font-size:11.5px;font-weight:800;padding:4px 7px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+  .sc-badge{font-size:11.5px;font-weight:800;padding:4px 7px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);white-space:nowrap}
   .sc-badge.amber{background:var(--amber-soft);color:var(--amber)}
   .sc-badge.neutral{background:var(--surface-2);color:var(--ink-2)}
   .status-card h3{margin:0;font-size:16px;letter-spacing:-.02em;line-height:1.25}
   .status-card p{margin:0;font-size:13.5px;color:var(--ink-2);font-weight:600;line-height:1.5}
+  .status-card .btn{align-self:flex-start;margin-top:auto}
   .metric-row{display:flex;gap:8px;flex-wrap:wrap}
   .metric{flex:1;min-width:110px;background:var(--surface-2);border-radius:10px;padding:10px}
-  .metric b{font-family:"IBM Plex Mono",monospace;font-size:16px;display:block;line-height:1}
+  .metric b{font-family:"IBM Plex Mono",monospace;font-size:16px;display:block;line-height:1.1}
   .metric span{font-size:12px;color:var(--ink-2);font-weight:700}
-  .book-row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px;font-weight:700}
-  .book-row:first-of-type{border-top:0}
-  .book-row span{color:var(--ink-2);font-weight:600;font-family:"IBM Plex Mono",monospace;font-size:12.5px;white-space:nowrap}
-  /* Footer / GitHub */
+  .mini-list{list-style:none;margin:0;padding:0}
+  .mini-list li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line);font-size:13.5px;font-weight:700}
+  .mini-list li:first-child{border-top:0;padding-top:0}
+  .mini-list li span{color:var(--ink-2);font-weight:600;font-family:"IBM Plex Mono",monospace;font-size:12.5px;white-space:nowrap}
+  .sales-groups{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .sales-group{padding:12px 12px 10px;background:var(--surface)}
+  .sales-group + .sales-group{border-top:1px solid var(--line)}
+  .sales-group.total{background:var(--accent-soft)}
+  .sg-head{display:flex;justify-content:space-between;align-items:baseline;gap:6px 10px;margin-bottom:8px;flex-wrap:wrap}
+  .sg-head strong{font-size:13.5px;letter-spacing:-.01em}
+  .sg-head span{font-size:12px;color:var(--ink-2);font-weight:700;white-space:nowrap}
+  .sg-head .sg-net{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:700;color:var(--ink)}
+  .sales-group.total .sg-head .sg-net{color:var(--accent-ink)}
+  .sg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  @media (max-width:560px){ .sg-grid{grid-template-columns:1fr 1fr} }
+  .sg-cell{background:var(--surface-2);border-radius:8px;padding:7px 8px}
+  .sales-group.total .sg-cell{background:rgba(255,255,255,.55)}
+  @media (prefers-color-scheme: dark){ .sales-group.total .sg-cell{background:rgba(0,0,0,.18)} }
+  .sg-cell b{font-family:"IBM Plex Mono",monospace;font-size:13px;display:block;line-height:1.1;letter-spacing:-.02em}
+  .sg-cell span{font-size:11px;font-weight:700;color:var(--ink-2);text-transform:uppercase;letter-spacing:.04em}
+  .sg-cell.negative b{color:var(--red)}
+  .sales-foot{font-size:12.5px;color:var(--ink-2);font-weight:600;line-height:1.5;margin:0}
+  .sales-foot strong{color:var(--ink)}
+  .sg-eq{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;color:var(--ink-2);margin:0 0 8px}
+  .sg-eq strong{color:var(--ink)}
   .github-bar{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:18px 20px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;box-shadow:var(--shadow)}
   .github-bar h3{margin:0;font-size:15px;letter-spacing:-.02em}
   .github-bar p{margin:3px 0 0;font-size:13.5px;color:var(--ink-2);font-weight:600;line-height:1.45;max-width:560px}
   .github-bar code{white-space:nowrap}
   footer{padding:18px 4px 0;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--ink-3);font-size:12.5px;font-weight:600}
   .hidden{display:none !important}
-  .toast{position:fixed;left:50%;transform:translateX(-50%) translateY(20px);bottom:18px;background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:999px;font-size:13.5px;font-weight:700;opacity:0;pointer-events:none;transition:.2s;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+  .toast{position:fixed;left:50%;transform:translateX(-50%) translateY(20px);bottom:18px;background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:999px;font-size:13.5px;font-weight:700;opacity:0;pointer-events:none;transition:.2s;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.2);max-width:calc(100vw - 32px);text-align:center}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   @media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto !important;transition:none !important} }
 </style>
@@ -168,149 +180,202 @@
 <div class="wrap">
   <header class="topbar">
     <div class="brand">
-      <div class="avatar" aria-hidden="true">M</div>
-      <div class="brand-text">
-        <strong>Masaki's Dashboard</strong>
-        <span>Personal home base • Independence, MO</span>
-      </div>
+      <div class="avatar" aria-hidden="true">P</div>
+      <div class="brand-text"><strong>Personal Dashboard</strong><span>Personal home base</span></div>
     </div>
     <div class="top-meta">
-      <span class="pill"><span class="dot"></span> Private • No ads</span>
-      <span class="pill mono" id="todayLabel">Wed, Nov 18, 2026</span>
+      <span class="pill"><span class="dot"></span> Public • No ads</span>
+      <span class="pill mono" id="todayLabel">Thu, Nov 19, 2026</span>
     </div>
   </header>
 
-  <section class="hero" aria-label="Overview">
-    <h1>Everything in <em>one place.</em><br>Nothing extra.</h1>
-    <p>Your open list, your training app notes, and the things you're tracking — kept simple so you can glance, decide, and get back to it. Built as a single file, ready for GitHub Pages whenever you are.</p>
-    <div class="hero-stats" aria-label="Summary">
-      <div class="stat"><b>6</b><span>Open to-dos</span></div>
-      <div class="stat"><b>42</b><span>Job applications</span></div>
-      <div class="stat"><b>31</b><span>Books sold</span></div>
-      <div class="stat"><b>1</b><span>Active project</span></div>
+  <nav class="page-nav" aria-label="Dashboard pages">
+    <div class="page-nav-inner" role="tablist" aria-label="Pages">
+      <button class="page-btn active" type="button" role="tab" aria-selected="true" data-nav="overview">Overview</button>
+      <button class="page-btn" type="button" role="tab" aria-selected="false" data-nav="todo">To-Do <small>6 open</small></button>
+      <button class="page-btn" type="button" role="tab" aria-selected="false" data-nav="sales">eBay Sales <small>$1,131.42 net</small></button>
+      <button class="page-btn" type="button" role="tab" aria-selected="false" data-nav="projects">Projects</button>
+      <button class="page-btn" type="button" role="tab" aria-selected="false" data-nav="more">More</button>
     </div>
-  </section>
+  </nav>
 
-  <div class="grid">
-    <!-- TO-DO -->
+  <!-- ============ PAGE: OVERVIEW ============ -->
+  <main class="page active" data-page="overview" aria-label="Overview">
+    <section class="hero" aria-label="Overview">
+      <h1>Everything in <em>one place.</em><br>Now in pages.</h1>
+      <p>Start here for the glance, then jump to a page for the detail — your to-dos, your eBay money after fees and shipping, your job search, and your projects. Each page has one job, so nothing gets buried.</p>
+      <div class="hero-stats" aria-label="Summary — tap a stat to open its page">
+        <button class="stat" type="button" data-go="todo"><b>6</b><span>Open to-dos</span><small>Open To-Do page →</small></button>
+        <button class="stat" type="button" data-go="projects"><b>42</b><span>Job applications</span><small>Open Projects →</small></button>
+        <button class="stat" type="button" data-go="sales"><b>40</b><span>Books sold</span><small>20 Ryutei · 20 Tuite →</small></button>
+        <button class="stat" type="button" data-go="sales"><b>$1,131.42</b><span>eBay net</span><small>After fees &amp; shipping →</small></button>
+      </div>
+    </section>
+
+    <div class="overview-grid">
+      <article class="status-card">
+        <div class="sc-top"><span class="sc-label">eBay • Headline</span><span class="sc-badge">Sep 29 – Nov 19, 2026</span></div>
+        <h3>$1,131.42 net after fees &amp; shipping</h3>
+        <p>33 orders. That extra book sale was a bundle of both books — eBay now counts 20 Ryutei no Michi and 20 Basic Tuite Books sold.</p>
+        <ul class="mini-list">
+          <li>Books <span>$979.75 net</span></li>
+          <li>Graphics cards <span>$151.67 net</span></li>
+          <li>Cash received after payout fees <span>$1,103.42</span></li>
+          <li>Still in eBay funds <span>$329.95</span></li>
+        </ul>
+        <button class="btn btn-primary" type="button" data-go="sales">Full breakdown →</button>
+      </article>
+
+      <article class="status-card">
+        <div class="sc-top"><span class="sc-label">To-do • Next up</span><span class="sc-badge">6 open</span></div>
+        <h3>Your open list, at a glance</h3>
+        <ul class="mini-list">
+          <li>Beat Pragmata <span>Game</span></li>
+          <li>Clean my office <span>Home</span></li>
+          <li>Beat The Letter <span>Game</span></li>
+          <li>Project NOMAD: get the AI model downloaded <span>Blocked</span></li>
+        </ul>
+        <p>Plus your Stream Deck shortcut and OBS check on the full list.</p>
+        <button class="btn btn-ghost" type="button" data-go="todo">Open full to-do list →</button>
+      </article>
+
+      <article class="status-card">
+        <div class="sc-top"><span class="sc-label">Job search</span><span class="sc-badge">Active</span></div>
+        <h3>42 applications submitted</h3>
+        <p>Tailored resumes for each role. The full tracker is kept separately — this is the at-a-glance count.</p>
+        <div class="metric-row"><div class="metric"><b>42</b><span>Submitted</span></div><div class="metric"><b>Tailored</b><span>Resume per role</span></div></div>
+        <button class="btn btn-ghost" type="button" data-go="projects">Open Projects →</button>
+      </article>
+
+      <article class="status-card">
+        <div class="sc-top"><span class="sc-label">Active project</span><span class="sc-badge">Free</span></div>
+        <h3>Fighting Game Training App</h3>
+        <p><strong>See the move, not just the notation.</strong> A move animation database — hear “1, 1, 2” in Tekken, see the animation, and it clicks. Website first, apps later.</p>
+        <button class="btn btn-ghost" type="button" data-go="projects">Open project notes →</button>
+      </article>
+    </div>
+
+    <div class="pager">
+      <span></span>
+      <button class="btn btn-primary" type="button" data-go="todo">Next: To-Do →</button>
+    </div>
+  </main>
+
+  <!-- ============ PAGE: TO-DO ============ -->
+  <main class="page" data-page="todo" aria-label="To-do list">
+    <div class="page-head">
+      <h2>To-Do</h2>
+      <p>Everything currently open, in one page. Filter by kind, or copy the whole list as Markdown.</p>
+    </div>
     <section class="card" id="todo" aria-labelledby="todo-title">
       <div class="card-head">
-        <div>
-          <h2 id="todo-title">To-do list</h2>
-          <p>All currently open. Kept by Boa — this is the live snapshot for the dashboard.</p>
-        </div>
+        <div><h2 id="todo-title">To-do list</h2><p>All currently open. Kept by Boa — this is the live snapshot for the dashboard.</p></div>
         <span class="count-badge">6 open</span>
       </div>
-
       <div class="filters" role="group" aria-label="Filter to-dos">
         <button class="filter-btn active" data-filter="all" type="button">All • 6</button>
         <button class="filter-btn" data-filter="game" type="button">Games • 2</button>
         <button class="filter-btn" data-filter="home" type="button">Home &amp; stream • 3</button>
         <button class="filter-btn" data-filter="project" type="button">Project • 1</button>
       </div>
-
       <ol class="todo-list" id="todoList">
-        <li class="todo" data-cat="game">
-          <span class="todo-num">1</span>
-          <div class="todo-main">
-            <div class="todo-title">Beat Pragmata</div>
-            <div class="todo-note">Video game — finish the run.</div>
-            <div class="tags"><span class="tag game">Game</span><span class="tag">Backlog</span></div>
-          </div>
-          <span class="status-open">Open</span>
-        </li>
-        <li class="todo" data-cat="home">
-          <span class="todo-num">2</span>
-          <div class="todo-main">
-            <div class="todo-title">Clean my office</div>
-            <div class="todo-note">Reset the desk and workspace.</div>
-            <div class="tags"><span class="tag">Home</span></div>
-          </div>
-          <span class="status-open">Open</span>
-        </li>
-        <li class="todo" data-cat="game">
-          <span class="todo-num">3</span>
-          <div class="todo-main">
-            <div class="todo-title">Beat The Letter</div>
-            <div class="todo-note">Video game — finish the run.</div>
-            <div class="tags"><span class="tag game">Game</span><span class="tag">Backlog</span></div>
-          </div>
-          <span class="status-open">Open</span>
-        </li>
-        <li class="todo" data-cat="home">
-          <span class="todo-num">4</span>
-          <div class="todo-main">
-            <div class="todo-title">Make a timestamp shortcut for my Stream Deck</div>
-            <div class="todo-note">One tap to drop a timestamp while streaming / recording.</div>
-            <div class="tags"><span class="tag">Stream Deck</span><span class="tag">Tech</span></div>
-          </div>
-          <span class="status-open">Open</span>
-        </li>
-        <li class="todo" data-cat="home">
-          <span class="todo-num">5</span>
-          <div class="todo-main">
-            <div class="todo-title">Review my OBS and make sure my stream is ready to go</div>
-            <div class="todo-note">Check scenes, audio, and settings so you can go live whenever you decide to stream again — no scramble.</div>
-            <div class="tags"><span class="tag">OBS</span><span class="tag">Streaming</span></div>
-          </div>
-          <span class="status-open">Open</span>
-        </li>
-        <li class="todo" data-cat="project">
-          <span class="todo-num">6</span>
-          <div class="todo-main">
-            <div class="todo-title">Project NOMAD: get the AI model downloaded</div>
-            <div class="todo-note">Downloads keep erroring out. Next try: download on desktop, then transfer via USB.</div>
-            <div class="tags"><span class="tag warn">Blocked — retry plan ready</span><span class="tag">Project NOMAD</span></div>
-          </div>
-          <span class="status-open">Open</span>
-        </li>
+        <li class="todo" data-cat="game"><span class="todo-num">1</span><div class="todo-main"><div class="todo-title">Beat Pragmata</div><div class="todo-note">Video game — finish the run.</div><div class="tags"><span class="tag game">Game</span><span class="tag">Backlog</span></div></div><span class="status-open">Open</span></li>
+        <li class="todo" data-cat="home"><span class="todo-num">2</span><div class="todo-main"><div class="todo-title">Clean my office</div><div class="todo-note">Reset the desk and workspace.</div><div class="tags"><span class="tag">Home</span></div></div><span class="status-open">Open</span></li>
+        <li class="todo" data-cat="game"><span class="todo-num">3</span><div class="todo-main"><div class="todo-title">Beat The Letter</div><div class="todo-note">Video game — finish the run.</div><div class="tags"><span class="tag game">Game</span><span class="tag">Backlog</span></div></div><span class="status-open">Open</span></li>
+        <li class="todo" data-cat="home"><span class="todo-num">4</span><div class="todo-main"><div class="todo-title">Make a timestamp shortcut for my Stream Deck</div><div class="todo-note">One tap to drop a timestamp while streaming / recording.</div><div class="tags"><span class="tag">Stream Deck</span><span class="tag">Tech</span></div></div><span class="status-open">Open</span></li>
+        <li class="todo" data-cat="home"><span class="todo-num">5</span><div class="todo-main"><div class="todo-title">Review my OBS and make sure my stream is ready to go</div><div class="todo-note">Check scenes, audio, and settings so you can go live whenever you decide to stream again — no scramble.</div><div class="tags"><span class="tag">OBS</span><span class="tag">Streaming</span></div></div><span class="status-open">Open</span></li>
+        <li class="todo" data-cat="project"><span class="todo-num">6</span><div class="todo-main"><div class="todo-title">Project NOMAD: get the AI model downloaded</div><div class="todo-note">Downloads keep erroring out. Next try: download on desktop, then transfer via USB.</div><div class="tags"><span class="tag warn">Blocked — retry plan ready</span><span class="tag">Project NOMAD</span></div></div><span class="status-open">Open</span></li>
       </ol>
-
-      <div class="card-foot">
-        <p id="filterNote">Showing all 6 items.</p>
-        <button class="btn btn-primary" id="copyTodos" type="button">Copy list as Markdown</button>
-      </div>
+      <div class="card-foot"><p id="filterNote">Showing all 6 items.</p><button class="btn btn-primary" id="copyTodos" type="button">Copy list as Markdown</button></div>
     </section>
+    <div class="pager">
+      <button class="btn btn-ghost" type="button" data-go="overview">← Overview</button>
+      <button class="btn btn-primary" type="button" data-go="sales">Next: eBay Sales →</button>
+    </div>
+  </main>
 
-    <!-- TRAINING APP -->
+  <!-- ============ PAGE: EBAY SALES ============ -->
+  <main class="page" data-page="sales" aria-label="eBay Sales">
+    <div class="page-head">
+      <h2>eBay Sales</h2>
+      <p>Total sales minus fees and shipping, with the math shown for each group: gross − eBay fees − shipping labels = net. Period: September 29 – November 19, 2026 • 33 orders • Snapshot, not live sync.</p>
+    </div>
+
+    <div class="grid-single">
+      <article class="status-card">
+        <div class="sc-top"><span class="sc-label">eBay • Sales</span><span class="sc-badge">Sep 29 – Nov 19, 2026</span></div>
+        <h3>$1,131.42 net after fees &amp; shipping</h3>
+        <p>33 orders in this period. Net is what’s left from gross sales after eBay fees and shipping label costs are taken out. Books now total <strong>40 sold — 20 Ryutei no Michi and 20 Basic Tuite Books</strong>, including that latest bundle of both books.</p>
+        <div class="sales-groups" aria-label="eBay sales breakdown">
+          <div class="sales-group">
+            <div class="sg-head"><strong>Books — 20 Ryutei no Michi · 20 Basic Tuite Book</strong><span>40 sold · 31 orders</span><span class="sg-net">$979.75 net</span></div>
+            <p class="sg-eq">$1,364.04 − $233.42 − $150.87 = <strong>$979.75 net</strong></p>
+            <div class="sg-grid">
+              <div class="sg-cell"><b>$1,364.04</b><span>Gross sales</span></div>
+              <div class="sg-cell negative"><b>−$233.42</b><span>eBay fees</span></div>
+              <div class="sg-cell negative"><b>−$150.87</b><span>Shipping labels</span></div>
+              <div class="sg-cell"><b>$979.75</b><span>Net</span></div>
+            </div>
+          </div>
+          <div class="sales-group">
+            <div class="sg-head"><strong>Graphics cards</strong><span>2 sold</span><span class="sg-net">$151.67 net</span></div>
+            <p class="sg-eq">$199.66 − $29.32 − $18.67 = <strong>$151.67 net</strong></p>
+            <div class="sg-grid">
+              <div class="sg-cell"><b>$199.66</b><span>Gross sales</span></div>
+              <div class="sg-cell negative"><b>−$29.32</b><span>eBay fees</span></div>
+              <div class="sg-cell negative"><b>−$18.67</b><span>Shipping labels</span></div>
+              <div class="sg-cell"><b>$151.67</b><span>Net</span></div>
+            </div>
+          </div>
+          <div class="sales-group total">
+            <div class="sg-head"><strong>All eBay sales — total</strong><span>33 orders</span><span class="sg-net">$1,131.42 net</span></div>
+            <p class="sg-eq">$1,563.70 − $262.74 − $169.54 = <strong>$1,131.42 net</strong></p>
+            <div class="sg-grid">
+              <div class="sg-cell"><b>$1,563.70</b><span>Gross sales</span></div>
+              <div class="sg-cell negative"><b>−$262.74</b><span>eBay fees</span></div>
+              <div class="sg-cell negative"><b>−$169.54</b><span>Shipping labels</span></div>
+              <div class="sg-cell"><b>$1,131.42</b><span>Net</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="sales-foot">Net = gross − eBay fees − shipping label costs. <strong>$28.00</strong> in express payout fees ($2.00 × 14 payouts) is <strong>not included</strong> in the net above — cash actually received after those is <strong>$1,103.42</strong>. <strong>$329.95</strong> is still in eBay funds waiting to pay out.</p>
+        <div class="metric-row">
+          <div class="metric"><b>$1,103.42</b><span>Cash received after payout fees</span></div>
+          <div class="metric"><b>$329.95</b><span>Still in eBay funds, waiting to pay out</span></div>
+          <div class="metric"><b>20 + 20</b><span>Ryutei + Tuite books sold</span></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="pager">
+      <button class="btn btn-ghost" type="button" data-go="todo">← To-Do</button>
+      <button class="btn btn-primary" type="button" data-go="projects">Next: Projects →</button>
+    </div>
+  </main>
+
+  <!-- ============ PAGE: PROJECTS ============ -->
+  <main class="page" data-page="projects" aria-label="Projects">
+    <div class="page-head">
+      <h2>Projects</h2>
+      <p>Your training app notes, job search status, recipes count, and watches — the things in progress, together on one page.</p>
+    </div>
     <section class="card" id="training-app" aria-labelledby="app-title">
       <div class="card-head">
-        <div>
-          <h2 id="app-title">Fighting Game Training App</h2>
-          <p>Project notes • Website first, apps later</p>
-        </div>
+        <div><h2 id="app-title">Fighting Game Training App</h2><p>Project notes • Website first, apps later</p></div>
         <span class="count-badge">Free</span>
       </div>
-
       <div class="project-hero">
         <label>Core idea</label>
         <strong>See the move, not just the notation.</strong>
         <p>A move <em>animation</em> database — short looping clips of what a move actually looks like, tied to its string. Hear “1, 1, 2” in Tekken, see the animation, and it clicks.</p>
       </div>
-
       <div class="kv">
-        <div class="kv-row">
-          <div class="kv-icon" aria-hidden="true">🌐</div>
-          <div><h3>Website first</h3><p>Launch on the web so anyone can jump in fast. iOS / Android apps come later, once the core feels right. Free for users.</p></div>
-        </div>
-        <div class="kv-row">
-          <div class="kv-icon" aria-hidden="true">🎮</div>
-          <div><h3>Multi-game, per-game pages</h3><p>Game selector up top, then a dedicated page per game and character. Built to grow game by game without getting messy.</p></div>
-        </div>
-        <div class="kv-row">
-          <div class="kv-icon" aria-hidden="true">🧠</div>
-          <div><h3>Teaches what games don't explain</h3><p>Neutral, frame traps, whose turn it is — the concepts you normally only pick up from other players, explained plainly.</p></div>
-        </div>
-        <div class="kv-row">
-          <div class="kv-icon" aria-hidden="true">🎞️</div>
-          <div><h3>Animation database + frame data later</h3><p>Clips hosted on the site to start. Later: overlays that use the clip itself — e.g. tint red when a move is negative, with the number on it.</p></div>
-        </div>
-        <div class="kv-row">
-          <div class="kv-icon" aria-hidden="true">👥</div>
-          <div><h3>Community-powered</h3><p>Bug reporting to track issues, plus tech submissions — players submit tech for their game / character and it gets aggregated for everyone.</p></div>
-        </div>
+        <div class="kv-row"><div class="kv-icon" aria-hidden="true">🌐</div><div><h3>Website first</h3><p>Launch on the web so anyone can jump in fast. iOS / Android apps come later, once the core feels right. Free for users.</p></div></div>
+        <div class="kv-row"><div class="kv-icon" aria-hidden="true">🎮</div><div><h3>Multi-game, per-game pages</h3><p>Game selector up top, then a dedicated page per game and character. Built to grow game by game without getting messy.</p></div></div>
+        <div class="kv-row"><div class="kv-icon" aria-hidden="true">🧠</div><div><h3>Teaches what games don't explain</h3><p>Neutral, frame traps, whose turn it is — the concepts you normally only pick up from other players, explained plainly.</p></div></div>
+        <div class="kv-row"><div class="kv-icon" aria-hidden="true">🎞️</div><div><h3>Animation database + frame data later</h3><p>Clips hosted on the site to start. Later: overlays that use the clip itself — e.g. tint red when a move is negative, with the number on it.</p></div></div>
+        <div class="kv-row"><div class="kv-icon" aria-hidden="true">👥</div><div><h3>Community-powered</h3><p>Bug reporting to track issues, plus tech submissions — players submit tech for their game / character and it gets aggregated for everyone.</p></div></div>
       </div>
-
       <div class="callout">
         <h3>Money — clean first</h3>
         <p>No ads at launch. If ads ever come to cover costs, they have to be fighting-game relevant only:</p>
@@ -321,76 +386,88 @@
         </ul>
       </div>
     </section>
-  </div>
 
-  <!-- STATUS -->
-  <div class="section-title">
-    <h2>Tracking &amp; quick status</h2>
-    <p>Updated Nov 18, 2026 • Snapshot, not live sync</p>
-  </div>
-
-  <div class="status-grid">
-    <article class="status-card featured">
-      <div class="sc-top"><span class="sc-label">Job search</span><span class="sc-badge">Active</span></div>
-      <h3>42 applications submitted</h3>
-      <p>Seattle area + fully remote. Tailored resumes per role. Full tracker lives in your Muse dashboard — this card is the at-a-glance count.</p>
-      <div class="metric-row">
-        <div class="metric"><b>42</b><span>Submitted</span></div>
-        <div class="metric"><b>SEA + Remote</b><span>Scope</span></div>
-      </div>
+    <article class="status-card" style="margin-top:12px">
+      <div class="sc-top"><span class="sc-label">Also on your list</span><span class="sc-badge amber">Blocked</span></div>
+      <h3>Project NOMAD: get the AI model downloaded</h3>
+      <p>Downloads keep erroring out. Next try: download on desktop, then transfer via USB. This is also to-do #6.</p>
+      <button class="btn btn-ghost" type="button" data-go="todo">Open in To-Do →</button>
     </article>
 
-    <article class="status-card">
-      <div class="sc-top"><span class="sc-label">eBay • Books</span><span class="sc-badge">Selling</span></div>
-      <h3>Your dad's books</h3>
-      <div>
-        <div class="book-row"><div>Ryutei no Michi</div><span>$45 • 17 sold</span></div>
-        <div class="book-row"><div>Basic Tuite Book</div><span>$15 • 14 sold</span></div>
-      </div>
-      <p>Both listings live. 31 copies sold total.</p>
-    </article>
-
-    <article class="status-card">
-      <div class="sc-top"><span class="sc-label">GTA VI</span><span class="sc-badge amber">Watching</span></div>
-      <h3>Waiting for PC</h3>
-      <p>Boa checks twice a week for any of these: a PC version announcement, a working 30+ fps recomp, or a streaming route that actually works.</p>
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:12px">No PC date yet in this snapshot.</p>
-    </article>
-
-    <article class="status-card">
-      <div class="sc-top"><span class="sc-label">Journal</span><span class="sc-badge neutral">Backup</span></div>
-      <h3>Journal backup</h3>
-      <p>You'll upload journal documents as you go and Boa keeps them backed up. Drop new entries in whenever — they'll be filed, not dumped in one big chat.</p>
-    </article>
-
-    <article class="status-card">
-      <div class="sc-top"><span class="sc-label">Gemini transfers</span><span class="sc-badge neutral">Ready</span></div>
-      <h3>Transfers folder is ready</h3>
-      <p>Kept separate from your main conversations, with its own index. Upload files whenever you're ready and each one gets sorted into its own file.</p>
-    </article>
-
-    <article class="status-card">
-      <div class="sc-top"><span class="sc-label">This dashboard</span><span class="sc-badge">Single file</span></div>
-      <h3>Ready for GitHub Pages</h3>
-      <p>One self-contained <code>index.html</code> — no build step, no domain to buy. Push it to a repo, turn on Pages, and you have a free address.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <a class="btn btn-ghost" href="#todo" style="flex:1;justify-content:center">View to-dos ↑</a>
-        <a class="btn btn-ghost" href="#training-app" style="flex:1;justify-content:center">App notes ↑</a>
-      </div>
-    </article>
-  </div>
-
-  <div class="github-bar">
-    <div>
-      <h3>To put this on GitHub later</h3>
-      <p>Create a repo, add this file as <code>index.html</code> at the root, then Settings → Pages → Deploy from branch. That's it — no server, no cost.</p>
+    <div class="section-title"><h2>Status &amp; watches</h2><p>Updated Nov 19, 2026 • Snapshot</p></div>
+    <div class="status-grid">
+      <article class="status-card">
+        <div class="sc-top"><span class="sc-label">Job search</span><span class="sc-badge">Active</span></div>
+        <h3>42 applications submitted</h3>
+        <p>Tailored resumes for each role. The full tracker is kept separately — this card is just the at-a-glance count.</p>
+        <div class="metric-row"><div class="metric"><b>42</b><span>Submitted</span></div><div class="metric"><b>Tailored</b><span>Resume per role</span></div></div>
+      </article>
+      <article class="status-card">
+        <div class="sc-top"><span class="sc-label">Recipes</span><span class="sc-badge amber">Collecting</span></div>
+        <h3>Recipes — The Remington James</h3>
+        <p>Recipes are being collected from his YouTube channel, video by video, into a separate Recipe Dashboard — kept in the sidebar right next to this one, so you can open it anytime and search what he's cooked.</p>
+        <div class="metric-row"><div class="metric"><b>—</b><span>Recipes collected so far</span></div></div>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px">Count updates as each video is worked through.</p>
+      </article>
+      <article class="status-card">
+        <div class="sc-top"><span class="sc-label">GTA VI • Watch</span><span class="sc-badge amber">Watching</span></div>
+        <h3>Waiting for PC</h3>
+        <p>Checked twice a week for any of these: a PC version announcement, a working 30+ fps recomp, or a streaming route that actually works.</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px">No PC date yet in this snapshot.</p>
+      </article>
     </div>
-    <button class="btn btn-primary" id="copyGithub" type="button">Copy setup steps</button>
-  </div>
+
+    <div class="pager">
+      <button class="btn btn-ghost" type="button" data-go="sales">← eBay Sales</button>
+      <button class="btn btn-primary" type="button" data-go="more">Next: More →</button>
+    </div>
+  </main>
+
+  <!-- ============ PAGE: MORE ============ -->
+  <main class="page" data-page="more" aria-label="More">
+    <div class="page-head">
+      <h2>More</h2>
+      <p>Backup and transfers — the slower-moving things, kept off the front page but easy to find.</p>
+    </div>
+    <div class="status-grid">
+      <article class="status-card">
+        <div class="sc-top"><span class="sc-label">Journal</span><span class="sc-badge neutral">Backup</span></div>
+        <h3>Journal backup</h3>
+        <p>You'll upload journal documents as you go and Boa keeps them backed up. Drop new entries in whenever — they'll be filed, not dumped in one big chat.</p>
+      </article>
+      <article class="status-card">
+        <div class="sc-top"><span class="sc-label">Gemini transfers</span><span class="sc-badge neutral">Ready</span></div>
+        <h3>Transfers folder is ready</h3>
+        <p>Kept separate from your main conversations, with its own index. Upload files whenever you're ready and each one gets sorted into its own file.</p>
+      </article>
+      <article class="status-card">
+        <div class="sc-top"><span class="sc-label">This dashboard</span><span class="sc-badge">5 pages • 1 file</span></div>
+        <h3>Pages, still ready for GitHub Pages</h3>
+        <p>Overview, To-Do, eBay Sales, Projects, and More are pages inside one self-contained <code>index.html</code> — no build step, no domain to buy. Push it to a repo, turn on Pages, and you have a free address.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost" type="button" data-go="todo" style="flex:1;justify-content:center">View to-dos</button>
+          <button class="btn btn-ghost" type="button" data-go="projects" style="flex:1;justify-content:center">App notes</button>
+        </div>
+      </article>
+    </div>
+
+    <div class="github-bar">
+      <div>
+        <h3>To put this on GitHub later</h3>
+        <p>Create a repo, add this file as <code>index.html</code> at the root, then Settings → Pages → Deploy from branch. That's it — no server, no cost. All five pages travel with the one file.</p>
+      </div>
+      <button class="btn btn-primary" id="copyGithub" type="button">Copy setup steps</button>
+    </div>
+
+    <div class="pager">
+      <button class="btn btn-ghost" type="button" data-go="projects">← Projects</button>
+      <button class="btn btn-primary" type="button" data-go="overview">Back to Overview →</button>
+    </div>
+  </main>
 
   <footer>
-    <span>Masaki's Personal Dashboard — for personal use.</span>
-    <span>Snapshot: Wednesday, November 18, 2026 • America/Chicago</span>
+    <span>Personal Dashboard — for personal use.</span>
+    <span>Snapshot: Thursday, November 19, 2026</span>
   </footer>
 </div>
 
@@ -405,6 +482,38 @@
     if(todayEl) todayEl.textContent = fmt.format(d);
   }catch(e){}
 
+  /* --- Page navigation --- */
+  var valid = ['overview','todo','sales','projects','more'];
+  var navBtns = Array.prototype.slice.call(document.querySelectorAll('[data-nav]'));
+  var pages = Array.prototype.slice.call(document.querySelectorAll('[data-page]'));
+  function showPage(id, push){
+    if(valid.indexOf(id)===-1) id='overview';
+    pages.forEach(function(p){ p.classList.toggle('active', p.getAttribute('data-page')===id); });
+    navBtns.forEach(function(b){
+      var on = b.getAttribute('data-nav')===id;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    if(push){
+      try{ history.replaceState(null,'','#'+id); }catch(e){}
+    }
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  navBtns.forEach(function(b){ b.addEventListener('click', function(){ showPage(b.getAttribute('data-nav'), true); }); });
+  Array.prototype.slice.call(document.querySelectorAll('[data-go]')).forEach(function(el){
+    el.addEventListener('click', function(){ showPage(el.getAttribute('data-go'), true); });
+  });
+  window.addEventListener('hashchange', function(){
+    var h = window.location.hash.replace('#','');
+    if(valid.indexOf(h)!==-1) showPage(h, false);
+  });
+  (function init(){
+    var h = window.location.hash.replace('#','');
+    if(h==='todo' || h==='training-app') h = (h==='training-app' ? 'projects' : 'todo');
+    if(valid.indexOf(h)!==-1) showPage(h, false);
+  })();
+
+  /* --- To-do filters --- */
   var buttons = Array.prototype.slice.call(document.querySelectorAll('.filter-btn'));
   var items = Array.prototype.slice.call(document.querySelectorAll('.todo'));
   var note = document.getElementById('filterNote');
@@ -424,6 +533,7 @@
     });
   });
 
+  /* --- Copy helpers --- */
   var toast = document.getElementById('toast');
   var toastTimer = null;
   function showToast(msg){
@@ -445,28 +555,17 @@
       navigator.clipboard.writeText(text).then(function(){ showToast(msg); }, fallback);
     } else { fallback(); }
   }
-
   var todoMd = [
-    '## To-do — Masaki',
-    '',
-    '- [ ] Beat Pragmata (video game)',
-    '- [ ] Clean my office',
-    '- [ ] Beat The Letter (video game)',
+    '## To-do','','- [ ] Beat Pragmata (video game)','- [ ] Clean my office','- [ ] Beat The Letter (video game)',
     '- [ ] Make a timestamp shortcut for my Stream Deck',
     '- [ ] Review my OBS and make sure my stream is ready to go whenever I decide to stream again',
-    '- [ ] Project NOMAD: get the AI model downloaded (downloads keep erroring out; try desktop download + USB transfer)',
-    ''
+    '- [ ] Project NOMAD: get the AI model downloaded (downloads keep erroring out; try desktop download + USB transfer)',''
   ].join('\n');
-
   var copyTodos = document.getElementById('copyTodos');
   if(copyTodos) copyTodos.addEventListener('click', function(){ copyText(todoMd, 'To-do list copied as Markdown'); });
-
   var ghSteps = [
-    'GitHub Pages setup:',
-    '1. Create a new GitHub repo',
-    '2. Add this dashboard as index.html at the repo root',
-    '3. Push to GitHub',
-    '4. Repo Settings > Pages > Deploy from a branch (main / root)',
+    'GitHub Pages setup:','1. Create a new GitHub repo','2. Add this dashboard as index.html at the repo root',
+    '3. Push to GitHub','4. Repo Settings > Pages > Deploy from a branch (main / root)',
     '5. Open the Pages URL GitHub gives you — no domain needed'
   ].join('\n');
   var copyGithub = document.getElementById('copyGithub');
